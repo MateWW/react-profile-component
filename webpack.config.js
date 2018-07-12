@@ -1,5 +1,6 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     entry: [
@@ -11,7 +12,10 @@ module.exports = {
       filename: '[name].[hash].js'
     },
     resolve: {
-        extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
+        alias: {
+          '@assets': path.resolve(__dirname, 'assets/'),
+        },
+        extensions: ['*', '.js', '.jsx', '.tsx', '.ts', '.jpg'],
         modules: ['./src', 'node_modules']
     },
     module: {
@@ -25,6 +29,12 @@ module.exports = {
             test: /\.(ts|tsx)$/,
             exclude: /node_modules/,
             use: ['babel-loader']
+          },
+          { 
+            test: /\.(png|svg|jpg|gif)$/,
+            use: [{
+              loader: 'file-loader',
+            }]      
           }
         ]
     },
