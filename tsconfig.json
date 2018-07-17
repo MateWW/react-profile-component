@@ -17,6 +17,7 @@
         "strict": true,
         "strictNullChecks": false,
         "strictPropertyInitialization": false,
+        "allowSyntheticDefaultImports": true,
         "target": "es5",
         "typeRoots": [
             "node_modules/@types",

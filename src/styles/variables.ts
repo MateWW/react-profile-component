@@ -15,6 +15,8 @@ export const colors = {
     lightGrey: '#343E00',
     grey: '#444444',
     white: '#FFFFFF',
+    borderLiteColor: '#EBEBEB',
+    borderDarkColor: '#DBE0E8',
 };
 
 export const shadow = {

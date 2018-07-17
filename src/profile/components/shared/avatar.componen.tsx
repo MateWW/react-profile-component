@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'react-emotion';
 
-import avatar from '@assets/images/girl-photo.jpg';
+import noAvatar from '@assets/images/empty.gif';
+
+import { User } from '../../models/User';
 
 const AvatarBox = styled.figure<ImageProps>(
     `
@@ -29,14 +31,11 @@ export interface ImageProps {
     size: 'small' | 'big';
 }
 
-export interface ProfileAvatarProps extends ImageProps {
-    fullName: string;
-    address: string;
-}
+export type ProfileAvatarProps = ImageProps & Pick<User, 'fullName' | 'address' | 'avatar'>;
 
-export const ProfileAvatar: React.SFC<ProfileAvatarProps> = ({ size, fullName, address }) => (
+export const ProfileAvatar: React.SFC<ProfileAvatarProps> = ({ size, fullName, address, avatar }) => (
     <AvatarBox size={size}>
         <figcaption>{` ${fullName} ${address} - profile photo`}</figcaption>
-        <img src={avatar} alt="Profile avatar" />
+        <img src={avatar || noAvatar} alt="Profile avatar" />
     </AvatarBox>
 );

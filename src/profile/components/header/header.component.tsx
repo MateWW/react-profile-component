@@ -4,8 +4,8 @@ import styled, { css } from 'react-emotion';
 import { margins } from 'styles/variables';
 import { applyBox } from 'styles/mixins';
 import { userMock } from 'mock/user';
+import { ProfileAvatar } from '../shared/avatar.componen';
 
-import { ProfileAvatar } from './avatar.componen';
 import { PersonalData } from './personal-data.component';
 import { Statistics } from './statistics.component';
 import { FollowButton } from './follow-button.component';
@@ -26,6 +26,7 @@ const Row = styled.div`
 const StatisticRow = css`
     margin-top: ${margins.regular};
     justify-content: space-between;
+    align-items: center;
 `;
 
 export const ProfileHeader: React.SFC = () => (

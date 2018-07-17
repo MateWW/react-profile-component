@@ -4,7 +4,8 @@ import styled from 'react-emotion';
 import { maxContainerWith, colors, borderRadius, margins } from 'styles/variables';
 import { applyFontDefault } from 'styles/mixins';
 
-import { ProfileHeader } from 'profile/components/header/header.component';
+import { ProfileHeader } from './components/header/header.component';
+import { ProfileComments } from './components/comments/comments.component';
 
 const Wrapper = styled.section`
     ${applyFontDefault()};
@@ -31,6 +32,7 @@ export class ProfileContainer extends React.Component {
                 <TopBar />
                 <Wrapper>
                     <ProfileHeader />
+                    <ProfileComments />
                 </Wrapper>
             </div>
         );

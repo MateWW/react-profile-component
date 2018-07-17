@@ -7,5 +7,11 @@ module.exports = merge(configBase,{
     devServer: {
         contentBase: './dist',
         hot: true,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8081',
+                pathRewrite: {'^/api' : ''}
+            }
+        },
     }
-})
+});
