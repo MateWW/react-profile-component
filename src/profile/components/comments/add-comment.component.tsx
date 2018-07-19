@@ -1,6 +1,10 @@
 import * as React from 'react';
 import styled from 'react-emotion';
+
 import { fontSize, colors, margins } from 'styles/variables';
+
+import { ProfileContext, ProfileContextValue } from '../../profile.context';
+import { AddProfileComment } from '../../actions/profile.actions';
 
 const AddCommentInput = styled.input`
     width: 100%;
@@ -9,20 +13,20 @@ const AddCommentInput = styled.input`
     padding: 5px 0;
     color: ${colors.grey};
     font-size: ${fontSize.basic};
-    transition: border .3s;
+    transition: border 0.3s;
 
     &::placeholder {
         color: ${colors.lightBlue};
-        transition: color .3s;
+        transition: color 0.3s;
     }
 
     &:focus {
         outline: none;
-        border-bottom-color: ${colors.orange}
+        border-bottom-color: ${colors.orange};
     }
 
-    &:focus::placeholder{
-        color: ${colors.orange}
+    &:focus::placeholder {
+        color: ${colors.orange};
     }
 `;
 
@@ -46,10 +50,54 @@ const AddCommentLabel = styled.label`
     }
 `;
 
-export const AddComment: React.SFC = () => (
-    <form>
-        <AddCommentLabel>
-            <AddCommentInput type="text" placeholder="Add comment" />
-        </AddCommentLabel>
-    </form>
-);
+interface AddCommentState {
+    value: string;
+}
+
+export class AddComment extends React.Component<{}, AddCommentState> {
+    public state: AddCommentState = {
+        value: '',
+    };
+
+    public render(): React.ReactNode {
+        return (
+            <ProfileContext.Consumer>
+                {context => (
+                    <form onSubmit={e => this.addComment(e, context)}>
+                        <AddCommentLabel>
+                            <AddCommentInput
+                                type="text"
+                                placeholder="Add comment"
+                                value={this.state.value}
+                                onChange={e => this.updateInputValue(e)}
+                                onBlur={() => this.cleanSpaces()}
+                            />
+                        </AddCommentLabel>
+                    </form>
+                )}
+            </ProfileContext.Consumer>
+        );
+    }
+
+    public updateInputValue(e: React.FormEvent<HTMLInputElement>): void {
+        this.setState({
+            value: e.currentTarget.value,
+        });
+    }
+
+    public cleanSpaces(): void {
+        if (this.state.value.length && !this.state.value.trim().length) {
+            this.setState({
+                value: '',
+            });
+        }
+    }
+
+    public addComment(e: React.FormEvent, { events, currentUser }: ProfileContextValue): void {
+        e.preventDefault();
+
+        if (this.state.value.trim().length) {
+            events(AddProfileComment(currentUser.id, this.state.value));
+        }
+    }
+}

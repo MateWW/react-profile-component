@@ -23,7 +23,10 @@ const AvatarBox = styled.figure<ImageProps>(
 `,
     ({ size }) => {
         const sizePx = size === 'big' ? '70px' : '40px';
-        return { width: sizePx, height: sizePx };
+        return `
+            width: ${sizePx};
+            height: ${sizePx};
+        `;
     },
 );
 

@@ -1,4 +1,7 @@
 export const maxContainerWith = '1140px';
+export const breakPoint = {
+    mobile: '@media only screen and (max-width: 470px)',
+};
 
 export const fontSize = {
     extraSmall: '10px',
@@ -17,6 +20,8 @@ export const colors = {
     white: '#FFFFFF',
     borderLiteColor: '#EBEBEB',
     borderDarkColor: '#DBE0E8',
+    disabledHearth: '#D9D9D9',
+    activeHearth: '#e74c3c',
 };
 
 export const shadow = {

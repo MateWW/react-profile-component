@@ -1,11 +1,12 @@
 import * as React from 'react';
 import styled from 'react-emotion';
 
-import { maxContainerWith, colors, borderRadius, margins } from 'styles/variables';
+import { maxContainerWith, colors, borderRadius, margins, breakPoint } from 'styles/variables';
 import { applyFontDefault } from 'styles/mixins';
 
 import { ProfileHeader } from './components/header/header.component';
 import { ProfileComments } from './components/comments/comments.component';
+import { ProfileContext, ProfileContextValue } from './profile.context';
 
 const Wrapper = styled.section`
     ${applyFontDefault()};
@@ -23,18 +24,22 @@ const TopBar = styled.div`
     margin-bottom: -95px;
     background: ${colors.darkBlue};
     border-radius: ${borderRadius.small} ${borderRadius.small} 0 0;
+
+    ${breakPoint.mobile} {
+        height: 125px;
+    }
 `;
 
-export class ProfileContainer extends React.Component {
+export class ProfileContainer extends React.Component<ProfileContextValue> {
     public render(): JSX.Element {
-        return (
-            <div>
+        return this.props.visibleUser ? (
+            <ProfileContext.Provider value={this.props}>
                 <TopBar />
                 <Wrapper>
                     <ProfileHeader />
                     <ProfileComments />
                 </Wrapper>
-            </div>
-        );
+            </ProfileContext.Provider>
+        ) : null;
     }
 }

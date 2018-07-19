@@ -46,15 +46,15 @@
   },
   "dependencies": {
     "@types/moment": "^2.13.0",
-    "create-emotion-styled": "^9.2.5",
+    "body-parser": "^1.18.3",
     "emotion": "^9.2.5",
     "express": "^4.16.3",
-    "inversify": "^4.13.0",
     "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-emotion": "^9.2.5",
     "react-virtualized": "^9.20.1",
-    "reflect-metadata": "^0.1.12"
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.2.2"
   }
 }

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'react-emotion';
 
+import { colors, fontSize, breakPoint } from 'styles/variables';
+
 import { User } from '../../models/User';
-import { margins, colors, fontSize } from 'styles/variables';
 
 type StatisticsProps = Pick<User, 'statistics'>;
 
@@ -10,6 +11,10 @@ const StatsContainer = styled.section`
     display: flex;
     width: 255px;
     justify-content: space-between;
+
+    ${breakPoint.mobile} {
+        width: 100%;
+    }
 `;
 
 const StatsCount = styled.span`

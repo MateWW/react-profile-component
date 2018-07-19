@@ -3,7 +3,7 @@
     "extends": ["tslint:latest", "tslint-config-prettier"],
     "rules": {
         "prettier": true,
-        "import-blacklist": [true, "rxjs"],
+        "import-blacklist": [true],
         "member-access": [true, "check-accessor"],
         "no-internal-module": true,
         "no-namespace": [true, "allow-declarations"],
@@ -13,8 +13,7 @@
             true,
             "call-signature",
             "parameter",
-            "property-declaration",
-            "member-variable-declaration"
+            "property-declaration"
         ],
         "typedef-whitespace": [
             true,

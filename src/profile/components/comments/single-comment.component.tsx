@@ -72,8 +72,8 @@ moment.locale('en', {
     relativeTime: {
         future: 'in %s',
         past: '%s ago',
-        s: 's',
-        ss: '%ss',
+        s: 'a sec',
+        ss: '%ss sec',
         m: 'a minute',
         mm: '%dm',
         h: 'an hour',

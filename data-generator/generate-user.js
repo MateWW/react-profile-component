@@ -2,9 +2,9 @@ const faker = require("faker/locale/pl");
 
 
 module.exports = {
-    generateUser: () => (
+    generateUser: (id) => (
         {
-            id: faker.random.number(),
+            id,
             fullName: faker.name.findName(),
             address: `${faker.address.city()}, ${faker.address.country()}`,
             avatar: faker.image.avatar(),
@@ -12,7 +12,8 @@ module.exports = {
                 likes: faker.random.number(),
                 following: faker.random.number(),
                 followers: faker.random.number(),
-            }
+            },
+            liked: false
         }
     )
 }

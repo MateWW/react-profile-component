@@ -6,3 +6,10 @@ export interface Comment {
     date: Date;
     text: string;
 }
+
+export function createComment(comment: Comment): Comment {
+    return {
+        ...comment,
+        date: new Date(comment.date),
+    };
+}

@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { css } from 'react-emotion';
+import styled from 'react-emotion';
 
 import { colors, margins } from 'styles/variables';
 
-const shareButton = css`
+import { ProfileContext } from '../../profile.context';
+import { ShareProfile } from '../../actions/profile.actions';
+
+const ShareButton = styled.span`
     position: absolute;
     right: 0;
     top: 0;
@@ -13,4 +16,10 @@ const shareButton = css`
     cursor: pointer;
 `;
 
-export const Share: React.SFC = () => <span className={shareButton + ' fas fa-share-square'} />;
+export const Share: React.SFC = () => (
+    <ProfileContext.Consumer>
+        {({ events, visibleUser }) => (
+            <ShareButton className="fas fa-share-square" onClick={() => events(ShareProfile(visibleUser.id))} />
+        )}
+    </ProfileContext.Consumer>
+);

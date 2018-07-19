@@ -1,19 +1,23 @@
-import { List, CellMeasurer, CellMeasurerCache, ListRowRenderer } from 'react-virtualized';
+import { List, CellMeasurer, CellMeasurerCache, ListRowRenderer, InfiniteLoader, Index } from 'react-virtualized';
 import * as React from 'react';
 import styled from 'react-emotion';
 
 import { margins } from 'styles/variables';
 
 import { SingleComment } from './single-comment.component';
+
+import { LoadMore } from '../../actions/profile.actions';
+import { ProfileContext } from '../../profile.context';
+import { User } from 'profile/models/User';
 import { Comment } from '../../models/Comment';
+import { ProfileActions } from 'profile/actions/profile.actions';
 
 interface CommentsListProps {
-    comments: Comment[];
     listWidth: number;
     listHeight: number;
 }
 
-const CommentsListContainer = styled.ul`
+const CommentsListContainer = styled.div`
     width: 100%;
     height: auto;
     margin-top: ${margins.big};
@@ -27,19 +31,34 @@ export class CommentsList extends React.Component<CommentsListProps> {
     });
 
     public render(): React.ReactNode {
-        const { comments, listHeight, listWidth } = this.props;
+        const { listHeight, listWidth } = this.props;
 
         return (
-            <CommentsListContainer>
-                <List
-                    height={listHeight}
-                    width={listWidth}
-                    rowCount={comments.length}
-                    deferredMeasurementCache={this.cache}
-                    rowHeight={props => this.cache.rowHeight(props)}
-                    rowRenderer={this.getRowRenderer()}
-                />
-            </CommentsListContainer>
+            <ProfileContext.Consumer>
+                {({ currentUser, comments, events }) => (
+                    <CommentsListContainer>
+                        <InfiniteLoader
+                            isRowLoaded={({ index }) => this.isRowLoaded(comments.data, index)}
+                            loadMoreRows={({ startIndex }) => this.loadMoreRows(currentUser, startIndex, events)}
+                            rowCount={comments.total}
+                        >
+                            {({ onRowsRendered, registerChild }) => (
+                                <List
+                                    height={listHeight}
+                                    width={listWidth}
+                                    onRowsRendered={onRowsRendered}
+                                    ref={registerChild}
+                                    rowCount={comments.data.length}
+                                    scrollToAlignment="end"
+                                    deferredMeasurementCache={this.cache}
+                                    rowHeight={props => this.cache.rowHeight(props)}
+                                    rowRenderer={this.getRowRenderer(comments.data)}
+                                />
+                            )}
+                        </InfiniteLoader>
+                    </CommentsListContainer>
+                )}
+            </ProfileContext.Consumer>
         );
     }
 
@@ -47,8 +66,16 @@ export class CommentsList extends React.Component<CommentsListProps> {
         this.cache.clearAll();
     }
 
-    private getRowRenderer(): ListRowRenderer {
-        const { comments } = this.props;
+    private isRowLoaded = (comments: Comment[], index: number) => {
+        return !!comments[index];
+    };
+
+    private loadMoreRows = ({ id }: User, offset: number, events: (action: ProfileActions) => void) => {
+        events(LoadMore(id, offset));
+        return Promise.resolve();
+    };
+
+    private getRowRenderer(comments: Comment[]): ListRowRenderer {
         return ({ key, parent, index, style }) => (
             <CellMeasurer cache={this.cache} columnIndex={0} key={key} parent={parent} rowIndex={index}>
                 <SingleComment style={style} comment={comments[index]} />

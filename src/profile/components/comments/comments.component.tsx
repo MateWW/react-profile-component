@@ -3,11 +3,12 @@ import styled from 'react-emotion';
 
 import { margins, colors, fontSize } from 'styles/variables';
 import { applyBox } from 'styles/mixins';
-import { CommentsMock } from 'mock/comments';
 import { getScrollTop } from 'helpers/getScrollTop';
 
 import { CommentsList } from './comments-list.component';
 import { AddComment } from './add-comment.component';
+import { ProfileContext } from '../../profile.context';
+import { ToggleComments } from '../../actions/profile.actions';
 
 const ProfileCommentsContainer = styled.section`
     ${applyBox()};
@@ -42,11 +43,18 @@ export class ProfileComments extends React.Component {
 
     public render(): React.ReactNode {
         return (
-            <ProfileCommentsContainer innerRef={container => (this.containerNode = container)}>
-                <HideComments>Hide comments(356)</HideComments>
-                <CommentsList comments={CommentsMock} {...this.state} />
-                <AddComment />
-            </ProfileCommentsContainer>
+            <ProfileContext.Consumer>
+                {({ events, visibleUser, comments }) => (
+                    <ProfileCommentsContainer innerRef={container => (this.containerNode = container)}>
+                        <HideComments onClick={() => events(ToggleComments(visibleUser.id, comments.data.length))}>
+                            {comments.visible ? 'Hide' : 'Show'} comments({comments.total})
+                        </HideComments>
+
+                        {comments.visible && <CommentsList {...this.state} />}
+                        <AddComment />
+                    </ProfileCommentsContainer>
+                )}
+            </ProfileContext.Consumer>
         );
     }
 

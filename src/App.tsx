@@ -4,11 +4,11 @@ import { injectGlobal } from 'emotion';
 
 import { resetCss } from 'styles/reset';
 
-import { ProfileContainer } from './profile/profile.container';
+import { DataControler } from './data-controler/data-controler';
 
 injectGlobal(`
     @import url('https://fonts.googleapis.com/css?family=Montserrat');
     ${resetCss}
 `);
 
-export const App = hot(module)(() => <ProfileContainer />);
+export const App = hot(module)(() => <DataControler />);
